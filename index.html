@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>Image Carousel</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+overflow: hidden;
+font-family: 'Poppins', sans-serif;
+background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);   
+color: white;
+}
+
+.carousel-container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 80%;
+width: 100%;
+overflow: hidden;
+position: relative;
+border: 8px solid rgba(255, 255, 255, 0.3);  
+border-radius: 15px;
+background: rgba(0, 0, 0, 0.5);  
+box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);  
+}
+.carousel-container p {
+position: absolute;
+top: 10px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 24px;
+font-weight: bold;
+text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.carousel-container p:last-of-type {
+top: auto;
+bottom: 10px;
+}
+
+.carousel {
+display: flex;
+height: 100%;
+transition: transform 0.5s ease-in-out;  
+}
+
+.carousel img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+border-radius: 15px;  
+}
+.button {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background-color: rgba(255, 255, 255, 0.3);
+border: 2px solid white;
+color: white;
+cursor: pointer;
+padding: 15px;
+font-size: 30px;
+z-index: 1;
+border-radius: 50%;
+box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+transition: background-color 0.3s ease;
+}
+
+.button:hover {
+ background-color: rgba(255, 255, 255, 0.6);
+}
+
+.left {
+left: 20px;
+}
+
+.right {
+right: 20px;
+}
+
+@media (max-width: 768px) {
+.carousel-container {
+height: 50%;
+}
+
+.carousel img {
+width: 100%;
+}
+
+.button {
+padding: 10px;
+font-size: 20px;
+}
+
+.carousel-container p {
+font-size: 18px;
+}
+}
+</style>
+</head>
+<body>
+<p style="text-align: center; font-weight: 500; font-size: 24px; font-family: Arial, sans-serif; color:white; margin-top: 20px;">Superhouse Placement Assignment</p>
+<div class="carousel-container">
+<button class="button left" onclick="prevImage()">&#10094;</button>
+<div class="carousel" id="carousel">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUVw-hIXKx08P5HRv9FgKbPQp_66oJbAmA5a5s3KbCljisRArkiwGJgY9Qa_DzQFf24SE&usqp=CAU" alt="Image 1">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-fGW3QX5M__XQv_CPic_Q9Q_01wxefhdolkenlHWkX-Yrg2iwF7GXFP_Sd1Lnq7lFxc8&usqp=CAU" alt="Image 2">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxss9VjxxrzWMc5KtLx1ognaGMzjjITiSXEzxiW5bcYodl0kul5XngABdtOZ8FMn_rAbo&usqp=CAU" alt="Image 3">
+<img src="https://wowslider.com/sliders/demo-93/data1/images/lake.jpg" alt="Image 4">
+</div>
+<button class="button right" onclick="nextImage()">&#10095;</button>
+<p>Submitted By Ram Mohan Dixit</p>
+</div>
+<script>
+let currentIndex = 0;
+const carousel = document.getElementById("carousel");
+const images = carousel.querySelectorAll("img");
+const totalImages = images.length;
+let autoScrollInterval;
+
+function updateCarousel() {
+const translateX = -(currentIndex * 100);
+carousel.style.transform = `translateX(${translateX}%)`;
+if (currentIndex >= totalImages) {
+currentIndex = 0;
+carousel.style.transition = "none";
+carousel.style.transform = `translateX(0)`;
+setTimeout(() => {
+carousel.style.transition = "transform 0.5s ease-in-out";
+}, 20);
+} else if (currentIndex < 0) {
+currentIndex = totalImages - 1;
+carousel.style.transition = "none";
+carousel.style.transform = `translateX(-${(totalImages - 1) * 100}%)`;
+setTimeout(() => {
+carousel.style.transition = "transform 0.5s ease-in-out";
+}, 20);
+}
+}
+function nextImage() {
+currentIndex++;
+updateCarousel();
+resetAutoScroll();}
+
+function prevImage() {
+currentIndex--;
+updateCarousel();
+resetAutoScroll();
+}
+
+function autoScroll() {
+nextImage();
+}
+
+function resetAutoScroll() {
+clearInterval(autoScrollInterval);
+autoScrollInterval = setInterval(autoScroll, 3000);
+}
+resetAutoScroll();
+</script>
+</body>
+</html>
